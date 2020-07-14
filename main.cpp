@@ -2,8 +2,10 @@
 #include <filesystem>
 #include <vector>
 #include <string>
+#include "cPFile.cpp"
 
-//namespace fs = std::filesystem;
+using std::cout;
+using std::endl;
 
 //prototypes
 void getFiles_recursive(const std::filesystem::path& path);
@@ -16,7 +18,7 @@ std::vector<std::string> codeFiles;
 //main***********************************************************************************//
 int main(int argc, char *argv[]) 
 {
-    //TODO: make a command interputer
+    // //TODO: make a command interputer
     getFiles_recursive(argv[1]);
     for(auto & i : files)
     {
