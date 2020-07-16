@@ -7,16 +7,22 @@
 
 //prototypes
 int testCPFile();
-void testCFiles();
+void testCPFiles();
+void testGetRecurseFile();
+void testGetCodeFiles();
 
 using std::cout;
 using std::endl;
+using std::vector;
+using std::string;
 
 //main***********************************************************************************//
 int main() 
 {
-    testCPFile();
-    testCPFiles();  
+    //testCPFile();
+    //testCPFiles();
+    //testGetRecurseFile();
+    testGetCodeFiles();  
     return 0;
 }
 
@@ -35,13 +41,10 @@ int testCPFile()
    
 }
 
+//this test also tests getFiles_recursive
 void testCPFiles()
 {
-    std::vector<std::string> files;
-    files.push_back("/home/geo/source/parascan/main.cpp");
-    files.push_back("/home/geo/source/parascan/test.cpp");
-
-    std::vector<cPFile> cpfs = cPFiles(files);
+    vector<cPFile> cpfs = cPFiles(getFiles_recursive("/home/geo/source/parascan"));
 
     for(auto & cf : cpfs)
     {
@@ -51,4 +54,26 @@ void testCPFiles()
     return;
 
 
+}
+//tested by testCPFiles()
+void testGetRecurseFile()
+{
+    for(auto & f : getFiles_recursive("/home/geo/source/parascan"))
+    {
+        cout << f << endl;
+    }
+
+    return;
+}
+
+void testGetCodeFiles()
+{
+    vector<string> codeFiles = getCodeFiles(getFiles_recursive("/home/geo/source/parascan"));
+
+    for(auto & cf : codeFiles)
+    {
+        cout << cf << endl;
+    }
+
+    
 }

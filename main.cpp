@@ -4,6 +4,7 @@
 #include <string>
 #include "cPFile.cpp"
 
+
 using std::cout;
 using std::endl;
 
@@ -20,15 +21,15 @@ int main(int argc, char *argv[])
 {
     // //TODO: make a command interputer
     getFiles_recursive(argv[1]);
-    for(auto & i : files)
+    
+    for(auto & f : files)
     {
-        getCodeFile(i);
+        getCodeFile(f);
     }
-
-    for(auto & f : codeFiles)
-    {
-        std::cout << f << std::endl;
-    } 
+    // for(auto & f : codeFiles)
+    // {
+    //     std::cout << f << std::endl;
+    // } 
 
     return 0;
 }
