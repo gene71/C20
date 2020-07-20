@@ -1,9 +1,6 @@
-#include <iostream>
-#include <filesystem>
-#include <vector>
-#include <string>
-#include "cPFile.cpp"
-#include "mPUtil.cpp"
+//parascan
+#include "globals.cpp"
+
 
 //prototypes
 int testCPFile();
@@ -13,28 +10,19 @@ void testGetCodeFiles();
 void testSaveScanConfig();
 void testGetTestDir();
 void testInit();
-void init();
 void testGetConfigs();
 void testSetV();
+void testGetSLOC();
+void testStToChar();
+void testGetCPIs();
 
-using std::cout;
-using std::endl;
-using std::vector;
-using std::string;
-
-vector<string> v_allFiles;
-vector<string> v_codeFileExt;
-vector<string> v_filesToScan;
-vector<string> config;
-
-string configsDat = "/home/geo/source/parascan/dat/configs.dat";
-string delimeter = ":";
 
 //main***********************************************************************************//
 int main()
 {
-   init();
-   testInit();
+  
+   //init();
+   //testInit();
   //testSetV();
   //testGetConfigs();
     //testCPFile();
@@ -43,6 +31,9 @@ int main()
     //testGetCodeFiles();
     //testSaveScanConfig();
     //testGetTestDir();
+    //testGetSLOC();
+    //testStToChar();
+    testGetCPIs();
 
     return 0;
 }
@@ -64,7 +55,6 @@ void init()
 
 
 }//end init()
-
 int testCPFile()
 {
     cPFile myObj;  // Create an object of MyClass
@@ -79,7 +69,6 @@ int testCPFile()
     return 0;
 
 }
-
 //this test also tests getFiles_recursive
 void testCPFiles()
 {
@@ -105,18 +94,6 @@ void testGetRecurseFile()
     return;
 }
 
-// void testGetCodeFiles()
-// {
-//     vector<string> codeFiles = getCodeFiles(getFiles_recursive("/home/geo/source/parascan"));
-
-//     for(auto & cf : codeFiles)
-//     {
-//         cout << cf << endl;
-//     }
-
-
-// }
-
 void testSaveScanConfig()
 {
   string name = "testFile";
@@ -124,16 +101,6 @@ void testSaveScanConfig()
   //saveScanConfig(config, name);
 
 }
-
-// void testGetTestDir()
-// {
-//   std::vector<string> v = getConfig("/home/geo/source/parascan/dat/config.dat");
-//   for(auto & configs : v)
-//   {
-//     std::cout << configs << endl;
-//   }
-
-// }
 
 void testInit()
 {
@@ -171,15 +138,68 @@ void testGetConfigs()
 void testSetV()
 {
   setv_AllFiles(configsDat, "scanDir", delimeter, v_allFiles);
-  //setV(configsDat, "codeExt", delimeter, v_codeFileExt);
+  
   for(auto & f : v_allFiles)
   {
     cout << f << endl;
   }
 
-  // for(auto & ext : v_codeFileExt)
-  // {
-  //   cout << ext << endl;
-  // }
+  
+}
 
+void testGetSLOC()
+{
+  init();
+  cout << "Total Files: " << v_filesToScan.size() << endl;
+  cout << "Total SLOC: " << getTotalSLOC(v_filesToScan) << endl;
+}
+
+void testStToChar()
+{
+  // string str = "a string";
+  // for(int i = 0; i < str.size(); i++)
+  // {
+  //   cout<< str[i] << endl;
+  // }
+  // local vars
+  string filepath = configsDat;
+  int i = 1;
+  string line;
+  ifstream infile;
+
+  // open a file in read mode.
+  infile.open(filepath);
+  // read the data from the file
+  while(getline(infile, line))
+  {
+    for(int i = 0; i < line.size(); i++)
+    {
+      if(line[i] == 'c')
+      {
+        cout << "found " << line[i] <<  " found delim " << line[i+7] << endl; 
+      }
+    }
+    
+  }
+
+
+
+
+   
+}
+
+void testGetCPIs()
+{
+  init();
+  for(auto & f : v_filesToScan)
+  {
+    getIndicators("memcpy", f, v_cpis);
+  }
+
+  for(auto & cpi : v_cpis)
+  {
+    //cout << cpi.linetext << "found in: " << cpi.filePath << " at line: " << cpi.linenumber << endl;
+    cout << cpi.linetext << endl;
+    cout << "found at line: " << cpi.linenumber << " in file: " << cpi.filePath << endl;;
+  }
 }

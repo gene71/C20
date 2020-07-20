@@ -1,10 +1,12 @@
-#include <iostream>
-#include <filesystem>
-#include <vector>
-#include <string>
+// #include <iostream>
+// #include <filesystem>
+// #include <vector>
+// #include <string>
+
 #include <fstream>
 
 using namespace std;
+
 
 //cPFiles gets a vector of CPFile by using paths from getFiles_recursive
 vector<cPFile> cPFiles(std::vector<std::string> files)
@@ -49,102 +51,6 @@ vector<string> getFiles_recursive(const std::filesystem::path& path)
     }
     return files;
 }
-
-//getCodeFile gets all the src files from the files vector and adds paths to the codeFile vector
-// vector<string> getCodeFiles(vector<string> paths)
-// {
-//     vector<string> codeFiles;
-
-//     for(auto & p : paths)
-//     {
-//         if(p.substr(p.find_last_of(".") + 1) == "java")
-//         {
-//           codeFiles.push_back(p);
-
-//         }
-
-//         if(p.substr(p.find_last_of(".") + 1) == "cc")
-//         {
-//             codeFiles.push_back(p);
-
-//         }
-
-//         if(p.substr(p.find_last_of(".") + 1) == "c")
-//         {
-//             codeFiles.push_back(p);
-
-//         }
-
-//         if(p.substr(p.find_last_of(".") + 1) == "cpp")
-//         {
-//             codeFiles.push_back(p);
-
-//         }
-
-//         if(p.substr(p.find_last_of(".") + 1) == "h")
-//         {
-//             codeFiles.push_back(p);
-
-//         }
-
-//         if(p.substr(p.find_last_of(".") + 1) == "CC")
-//         {
-//             codeFiles.push_back(p);
-
-//         }
-
-//         if(p.substr(p.find_last_of(".") + 1) == "C")
-//         {
-//             codeFiles.push_back(p);
-
-//         }
-
-//         if(p.substr(p.find_last_of(".") + 1) == "CPP")
-//         {
-//             codeFiles.push_back(p);
-
-//         }
-
-//         if(p.substr(p.find_last_of(".") + 1) == "H")
-//         {
-//             codeFiles.push_back(p);
-
-//         }
-
-//     }//end for
-
-
-//     return codeFiles;
-// }
-
-// void saveScanConfig(string config, string name)
-// {
-//   // open a file in write mode.
-//    ofstream outfile;
-//    outfile.open(name + ".dat");
-//    // write inputted data into the file.
-//    outfile << config << endl;
-//
-// }
-
-// vector<string> getConfig(string configPath)
-// {
-//   string line;
-//   vector<string> v;
-//   // open a file in read mode.
-//   ifstream infile;
-//   infile.open(configPath);
-
-//   // again read the data from the file and display it.
-//   while(getline(infile, line))
-//   { //read data from file object and put it into string.
-//     v.push_back(line);
-//   }
-
-//   return v;
-
-// }
-
 // getConfigs ingests a file in key:value\n format and parses out value by removing key and delimeter from the line
 vector<string> getConfigs(string configPath, string key, string delimeter)
 {
@@ -219,4 +125,63 @@ void setv_filesToScan(vector<string> &v_aF, vector<string> &v_cFE, vector<string
     }//end for ext
   }
     
+}
+
+int getSLOC(string filepath)
+{
+  // local vars
+  int i = 1;
+  string line;
+  ifstream infile;
+
+  // open a file in read mode.
+  infile.open(filepath);
+  // read the data from the file
+  while(getline(infile, line))
+  {
+    i++;
+  }
+  
+  return i;
+}
+
+int getTotalSLOC(vector<string> filepaths)
+{
+  int i = 0;
+  for(auto & f : filepaths)
+  {
+    i+= getSLOC(f);
+  }
+  return i;
+}
+
+void getIndicators(string key, string filepath, vector<cPIndicator> &v_cpis)
+{
+  // string filepath = configsDat;
+  string line;
+  ifstream infile;
+  int linecount = 1;
+  //////cPIndicator cpi;
+
+  // // open a file in read mode.
+  infile.open(filepath);
+  // // read the data from the file
+  while(getline(infile, line))
+  {
+       
+    // parse key line
+    if(line.find(key) != std::string::npos)
+    {
+        
+      cPIndicator cpi;
+      cpi.filePath = filepath;
+      cpi.indicator = key;
+      cpi.linenumber = linecount;
+      cpi.linetext = line;
+      v_cpis.push_back(cpi);
+    }
+    linecount++;
+        
+  }//end while
+  return;
 }
