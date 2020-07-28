@@ -8,6 +8,8 @@
 using namespace std;
 
 
+
+
 //cPFiles gets a vector of CPFile by using paths from getFiles_recursive
 vector<cPFile> cPFiles(std::vector<std::string> files)
 {
@@ -110,6 +112,7 @@ void setv_codeExt(string configsDat, string key, string delimeter, vector<string
   }//end get all files
   
 }
+
 //setv_filesToScan searches the v_allFiles vector using the file extensions in the v_codeExt vector to find and add code file paths to the v_filesToScanVector
 void setv_filesToScan(vector<string> &v_aF, vector<string> &v_cFE, vector<string> &v_fTS)
 {
@@ -184,4 +187,33 @@ void getIndicators(string key, string filepath, vector<cPIndicator> &v_cpis)
         
   }//end while
   return;
+}
+
+void scan()
+{
+  string line;
+  ifstream infile;
+  vector<string> patterns;
+
+  // for(auto & f : v_scanconfigs)
+  // {
+  //   cout << f << endl;
+  // }
+  
+
+  
+  // for(auto & f : v_scanconfigs)
+  // {
+  //  // open a file in read mode.
+  //  infile.open(f);
+  // // // read the data from the file
+
+  //   // // read the data from the file
+  //  while(getline(infile, line))
+  //  {
+  //    cout << line << endl;
+
+  //  }    
+
+  // }//end for
 }

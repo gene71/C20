@@ -3,6 +3,7 @@
 
 
 //prototypes
+void init();
 int testCPFile();
 void testCPFiles();
 void testGetRecurseFile();
@@ -15,6 +16,7 @@ void testSetV();
 void testGetSLOC();
 void testStToChar();
 void testGetCPIs();
+// void testScan();
 
 
 //main***********************************************************************************//
@@ -34,6 +36,7 @@ int main()
     //testGetSLOC();
     //testStToChar();
     testGetCPIs();
+    //testScan();
 
     return 0;
 }
@@ -46,10 +49,14 @@ void init()
   
   // get code file extensions from configs dat and add them to
   setv_codeExt(configsDat, "codeExt", delimeter, v_codeFileExt);
+
+  // get scan from configs dat and add them to v_scanconfigs.  use the same method for code extenstions since only variables changes for this call
+  setv_codeExt(configsDat, "scanConfig", delimeter, v_scanconfigs);
+
   
   // get code file paths from all files and add to files filesToScan std::vector<string> v;
   setv_filesToScan(v_allFiles, v_codeFileExt, v_filesToScan);
-  
+ 
 
   return;
 
@@ -202,4 +209,7 @@ void testGetCPIs()
     cout << cpi.linetext << endl;
     cout << "found at line: " << cpi.linenumber << " in file: " << cpi.filePath << endl;;
   }
+
+  
 }
+
